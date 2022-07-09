@@ -11,7 +11,7 @@ import com.demo.file.server.actor.FileActor
 import com.demo.file.server.model.FileRequest
 import spray.json.JsValue
 import akka.http.scaladsl.marshallers.sprayjson.SprayJsonSupport._
-import com.demo.file.server.util.{Config, RateLimiterChecker}
+import com.demo.file.server.util.{ConfigUtil, RateLimiterChecker}
 
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.duration.DurationInt
@@ -52,7 +52,7 @@ object FileServer {
       }.result()
 
 
-    val limiter = new Limiter(max = Config.maxRequest)
+    val limiter = new Limiter(max = ConfigUtil.maxRequest)
 
     val route =
       handleRejections(rejectionHandler) {
@@ -62,7 +62,7 @@ object FileServer {
               path("create") {
                 entity(as[FileRequest]) { request =>
                   limiter.limitConcurrentRequests(request) {
-                    implicit val timeout: Timeout = Config.maxTimeout.seconds
+                    implicit val timeout: Timeout = ConfigUtil.maxTimeout.seconds
                     onSuccess((fileActor ? FileRequest(request.requestId)).mapTo[JsValue]) { res =>
                       complete(res)
                     }

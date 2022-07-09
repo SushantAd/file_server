@@ -1,6 +1,6 @@
 package com.demo.file.server.service
 
-import com.demo.file.server.util.Config
+import com.demo.file.server.util.ConfigUtil
 
 import java.nio.charset.StandardCharsets
 import java.nio.file.{Files, Path, Paths}
@@ -9,7 +9,7 @@ import scala.jdk.CollectionConverters.CollectionHasAsScala
 object FileService {
 
   def createFile(fileName: String, fileContent: String): Option[String] ={
-    val path= s"${Config.centralDirectory}$fileName"""
+    val path= s"${ConfigUtil.centralDirectory}\\$fileName"
     val resultPath = Files.write(Paths.get(s"$path.txt"), s"${fileContent}".getBytes(StandardCharsets.UTF_8))
     checkAndGetFile(resultPath)
   }

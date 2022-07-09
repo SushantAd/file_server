@@ -2,7 +2,7 @@ package com.demo.file.server.util
 
 import com.typesafe.config.{Config, ConfigFactory}
 
-object Config {
+object ConfigUtil {
 
   private val conf: Config = ConfigFactory.load()
 
