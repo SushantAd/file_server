@@ -1,2 +1,3 @@
 # file_server
-A simple Akka HTTP based ups
+A minimal file server based on Akka Http.
+
