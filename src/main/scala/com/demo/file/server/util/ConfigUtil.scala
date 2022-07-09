@@ -12,4 +12,6 @@ object ConfigUtil {
   val centralDirectory: String = conf.getString("file_store.central-directory")
   val defaultFileExtension: String = conf.getString("file_store.default-extension")
 
+  val cacheClearDelay: Int = conf.getInt("rate_limiter.cache.clear.delay")
+
 }

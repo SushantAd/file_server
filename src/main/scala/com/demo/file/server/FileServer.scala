@@ -11,7 +11,7 @@ import com.demo.file.server.actor.FileActor
 import com.demo.file.server.model.FileRequest
 import spray.json.JsValue
 import akka.http.scaladsl.marshallers.sprayjson.SprayJsonSupport._
-import com.demo.file.server.util.{ConfigUtil, RateLimiterChecker}
+import com.demo.file.server.util.{ConfigUtil, RateLimitChecker}
 
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.duration.DurationInt
@@ -22,22 +22,21 @@ object FileServer {
 
   implicit val system: ActorSystem = ActorSystem()
   val fileActor: ActorRef = system.actorOf(Props[FileActor])
-  val rateLimiterChecker = new RateLimiterChecker(system.scheduler)
+  val rateLimitChecker = new RateLimitChecker(system.scheduler)
 
   case object PathBusyRejection extends Rejection
 
   class Limiter(max: Int) {
 
-    // needs to be a thread safe counter since there can be concurrent requests
-
+    //Custom directive with thread safe counter since there can be concurrent requests
     def limitConcurrentRequests(req: FileRequest): Directive0 =
       extractRequest.flatMap { request => //to use request elements to create unique resoource
-        if (rateLimiterChecker.incrementAndGet(req.requestId) > max) {
-          rateLimiterChecker.decrementAndGet(req.requestId)
+        if (rateLimitChecker.incrementAndGet(req.requestId) > max) {
+          rateLimitChecker.decrementAndGet(req.requestId)
           reject(PathBusyRejection)
         } else {
           mapResponse { response =>
-            rateLimiterChecker.decrementAndGet(req.requestId)
+            rateLimitChecker.decrementAndGet(req.requestId)
             response
           }
         }

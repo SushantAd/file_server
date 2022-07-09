@@ -8,9 +8,9 @@ import scala.concurrent.ExecutionContext
 import scala.concurrent.duration.DurationInt
 import scala.jdk.CollectionConverters.ConcurrentMapHasAsScala
 
-class RateLimiterChecker(scheduler: Scheduler)(implicit val executionContext: ExecutionContext) {
+class RateLimitChecker(scheduler: Scheduler)(implicit val executionContext: ExecutionContext) {
 
-  val map = RateLimiterChecker.concurrentMap
+  val map = RateLimitChecker.concurrentMap
 
   private val task: Runnable = new Runnable{
     def run() {
@@ -19,7 +19,7 @@ class RateLimiterChecker(scheduler: Scheduler)(implicit val executionContext: Ex
     }
   }
 
-  scheduler.scheduleAtFixedRate(30.seconds, 30.seconds)(task)
+  scheduler.scheduleAtFixedRate(ConfigUtil.cacheClearDelay.seconds, ConfigUtil.cacheClearDelay.seconds)(task)
 
   private def validateAndUpdateResourceRate(resource: String, rate: Int): Int={
     map.get(resource) match {
@@ -33,6 +33,6 @@ class RateLimiterChecker(scheduler: Scheduler)(implicit val executionContext: Ex
 
 }
 
-object RateLimiterChecker{
+object RateLimitChecker{
   val concurrentMap: concurrent.Map[String, Int] = new ConcurrentHashMap[String, Int].asScala
 }

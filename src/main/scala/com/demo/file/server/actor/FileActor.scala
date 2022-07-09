@@ -20,6 +20,6 @@ class FileActor extends Actor{
           case Some(fileInfo) => FileResponse(requestId, true, Some(fileInfo))
           case _ => FileResponse(requestId)
         }
-      context.system.scheduler.scheduleOnce(5.seconds, sender(), fileCreated.toJson)
+      context.system.scheduler.scheduleOnce(5.seconds, sender(), fileCreated.toJson) //min delay 5s as per requirement
   }
 }

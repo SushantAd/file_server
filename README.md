@@ -66,6 +66,6 @@ Extensions:
 ####Note:
 
 
-Disclaimer & Credit:
+#Disclaimer & Credit:
 The custom directive idea has been taken from https://gist.github.com/johanandren/b87a9ed63b4c3e95432dc0497fd73fdb 
 However instead of using AtomicNumber, we are using a threadSafe map (ConcurrentHashMap)
