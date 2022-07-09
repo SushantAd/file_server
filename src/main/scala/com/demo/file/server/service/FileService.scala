@@ -1,0 +1,26 @@
+package com.demo.file.server.service
+
+import com.demo.file.server.util.Config
+
+import java.nio.charset.StandardCharsets
+import java.nio.file.{Files, Path, Paths}
+import scala.jdk.CollectionConverters.CollectionHasAsScala
+
+object FileService {
+
+  def createFile(fileName: String, fileContent: String): Option[String] ={
+    val path= s"${Config.centralDirectory}$fileName"""
+    val resultPath = Files.write(Paths.get(s"$path.txt"), s"${fileContent}".getBytes(StandardCharsets.UTF_8))
+    checkAndGetFile(resultPath)
+  }
+
+  private def checkAndGetFile(path: Path): Option[String] ={
+    if(Files.exists(path))
+      Some(Files.readAllLines(path).asScala.mkString)
+    else
+      None
+  }
+
+
+
+}
