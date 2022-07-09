@@ -9,7 +9,7 @@ object Config {
   val maxRequest: Int = conf.getInt("request.max-request")
   val maxTimeout: Int = conf.getInt("request.max-timeout")
 
-  val centralDirectory: String = conf.getString("file-store.central-directory")
-  val defaultFileExtension: String = conf.getString("file-store.default-extension")
+  val centralDirectory: String = conf.getString("file_store.central-directory")
+  val defaultFileExtension: String = conf.getString("file_store.default-extension")
 
 }
