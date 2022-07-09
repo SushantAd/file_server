@@ -12,11 +12,8 @@ class RateLimitChecker(scheduler: Scheduler)(implicit val executionContext: Exec
 
   val map = RateLimitChecker.concurrentMap
 
-  private val task: Runnable = new Runnable{
-    def run() {
-      println("Scheduled...!"+map)
+  private val task: Runnable = () =>{
       if(map.nonEmpty) map.clear()
-    }
   }
 
   scheduler.scheduleAtFixedRate(ConfigUtil.cacheClearDelay.seconds, ConfigUtil.cacheClearDelay.seconds)(task)

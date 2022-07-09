@@ -12,17 +12,19 @@ import com.demo.file.server.model.FileRequest
 import spray.json.JsValue
 import akka.http.scaladsl.marshallers.sprayjson.SprayJsonSupport._
 import com.demo.file.server.util.{ConfigUtil, RateLimitChecker}
+import com.typesafe.scalalogging.LazyLogging
 
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.duration.DurationInt
 import scala.util.{Failure, Success}
 
 
-object FileServer {
+object FileServer extends LazyLogging{
 
   implicit val system: ActorSystem = ActorSystem()
   val fileActor: ActorRef = system.actorOf(Props[FileActor])
   val rateLimitChecker = new RateLimitChecker(system.scheduler)
+
 
   case object PathBusyRejection extends Rejection
 
@@ -74,9 +76,9 @@ object FileServer {
       }
 
     Http().newServerAt("127.0.0.1", 8080).bind(route).onComplete {
-      case Success(_) => println("Listening for requests on http://127.0.0.1:8080")
+      case Success(_) => logger.info("Listening for requests on http://127.0.0.1:8080")
       case Failure(ex) =>
-        println("Failed to bind to 127.0.0.8080")
+        logger.info("Failed to bind to 127.0.0.8080")
         ex.printStackTrace()
     }
   }
