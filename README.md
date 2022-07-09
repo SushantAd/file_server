@@ -4,13 +4,13 @@ The project has been built keeping in mind, a service that can be built within a
 
 ###  Requirements: Create an HTTP service (server) with the following specification:
 
-1/ The service has a single endpoint with the following signature and request body structure
+1. The service has a single endpoint with the following signature and request body structure
 POST /api/server/create
 {"requestId": "a random alphanumeric string (S1)"}
-2/ The endpoint is rate limited - it only accepts 2 request / s / unique resourceId
-3/ The endpoint creates a local file but it takes 5-10s to create it (no less than 5s, no longer than
+2. The endpoint is rate limited - it only accepts 2 request / s / unique resourceId
+3. The endpoint creates a local file but it takes 5-10s to create it (no less than 5s, no longer than
 10s). The value of the file content is another random alphanumeric string (S2).
-4/ The endpoint responds immediately with either
+4. The endpoint responds immediately with either
 
 
 Output:
