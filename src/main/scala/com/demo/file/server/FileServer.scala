@@ -18,13 +18,11 @@ import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.duration.DurationInt
 import scala.util.{Failure, Success}
 
-
 object FileServer extends LazyLogging{
 
   implicit val system: ActorSystem = ActorSystem()
   val fileActor: ActorRef = system.actorOf(Props[FileActor])
   val rateLimitChecker = new RateLimitChecker(system.scheduler)
-
 
   case object PathBusyRejection extends Rejection
 
@@ -32,7 +30,7 @@ object FileServer extends LazyLogging{
 
     //Custom directive with thread safe counter since there can be concurrent requests
     def limitConcurrentRequests(req: FileRequest): Directive0 =
-      extractRequest.flatMap { request => //to use request elements to create unique resoource
+      extractRequest.flatMap { request => //to use request elements to create unique resource
         if (rateLimitChecker.incrementAndGet(req.requestId) > max) {
           rateLimitChecker.decrementAndGet(req.requestId)
           reject(PathBusyRejection)
@@ -51,7 +49,6 @@ object FileServer extends LazyLogging{
         case PathBusyRejection =>
           complete((StatusCodes.TooManyRequests, ""))
       }.result()
-
 
     val limiter = new Limiter(max = ConfigUtil.maxRequest)
 
@@ -82,6 +79,4 @@ object FileServer extends LazyLogging{
         ex.printStackTrace()
     }
   }
-
-
 }
