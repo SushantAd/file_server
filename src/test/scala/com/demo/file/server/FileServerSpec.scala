@@ -10,8 +10,7 @@ import org.scalatest.matchers.should.Matchers
 import org.scalatest.wordspec.AnyWordSpec
 import spray.json.{JsValue, enrichAny}
 import akka.http.scaladsl.marshallers.sprayjson.SprayJsonSupport._
-import akka.http.scaladsl.model.HttpMethods.{GET, POST}
-import com.demo.file.server.FileServer.PathBusyRejection
+
 import spray.json.DefaultJsonProtocol._
 
 import scala.concurrent.duration.DurationInt

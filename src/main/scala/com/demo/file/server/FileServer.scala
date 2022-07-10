@@ -72,10 +72,10 @@ object FileServer extends LazyLogging{
         }
       }
 
-    Http().newServerAt("127.0.0.1", 8080).bind(route).onComplete {
-      case Success(_) => logger.info("Listening for requests on http://127.0.0.1:8080")
+    Http().newServerAt(ConfigUtil.applicationHost, ConfigUtil.applicationPort).bind(route).onComplete {
+      case Success(_) => logger.info(s"Listening for requests on http://${ConfigUtil.applicationHost}:${ConfigUtil.applicationPort}")
       case Failure(ex) =>
-        logger.info("Failed to bind to 127.0.0.8080")
+        logger.info(s"Failed to bind to ${ConfigUtil.applicationHost}:${ConfigUtil.applicationPort}")
         ex.printStackTrace()
     }
   }

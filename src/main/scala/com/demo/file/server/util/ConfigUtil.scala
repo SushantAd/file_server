@@ -6,6 +6,9 @@ object ConfigUtil {
 
   private val conf: Config = ConfigFactory.load()
 
+  val applicationHost : String = conf.getString("application.host")
+  val applicationPort : Int = conf.getInt("application.port")
+
   val maxRequest: Int = conf.getInt("request.max-request")
   val maxTimeout: Int = conf.getInt("request.max-timeout")
 

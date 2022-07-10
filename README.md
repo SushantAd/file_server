@@ -59,11 +59,40 @@ or
 Run via IDE
 ```
 
-Limitation:
+Post Url: http://127.0.0.1:8080/api/server/create
 
-Extensions:
+Request Body:
+{
+"requestId":"testRequest1"
+}
 
-####Note:
+
+###Limitation:
+1. Rate limiting is based on server processing time (Reason- Server takes a min 5s, which would lead to failing multiple requests).
+
+###Extensions:
+1. Rate Limiting can be extended by adding timestamp check when fetching from cache for a specific duration.
+2. Unit and Integrations tests can be better used for edge cases.
+
+###Important - For Testing
+To run Unit test:
+```bash
+sbt test
+or
+Run test via IDE
+```
+
+To run Integration test:
+Prerequisites:
+1. File-Server should be online or will throw 500 error.
+2. File-Client-Server should be online or will throw 500 error.
+3. Using single conf file so testing will also create file in the same central directory (will not work if central dir value is wrong in config.)
+4. File will be created and deleted after IT is completed. (File name: "t_e_s_t_file_dont_use.txt")
+```bash
+sbt it:test
+or
+Run it test via IDE
+```
 
 
 #Disclaimer & Credit:
