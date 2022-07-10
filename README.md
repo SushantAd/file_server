@@ -22,14 +22,14 @@ or C:
 HTTP response code 429 (Too Many Requests) and an empty body if rate limit was exceeded
 
 
-####Suggested Solution:
+###Suggested Solution:
 1. Idiomatic approach, using custom code than Akka streams.
 2. Akka HTTP based application exposing a single route with Post method POST /api/server/create.
 3. Use Custom direction to manage Rate limiting and internal threadsafe cache to keep track of request and resource.
 4. Use Akka Actor for async calls and adding 5s delay.
 5. Store file in a central location.
 
-####Assumptions:
+###Assumptions:
 1. Since currently we do not have a criteria to identify a unique resource, only for test purpose
    1. We assume the requestId as the unique resource.
    2. Can be further extended to create a checksum of whatever request entities we require.
@@ -85,9 +85,9 @@ Run test via IDE
 To run Integration test:
 Prerequisites:
 1. File-Server should be online or will throw 500 error.
-2. File-Client-Server should be online or will throw 500 error.
-3. Using single conf file so testing will also create file in the same central directory (will not work if central dir value is wrong in config.)
-4. File will be created and deleted after IT is completed. (File name: "t_e_s_t_file_dont_use.txt")
+2. Using single conf file so testing will also create file in the same central directory (will not work if central dir value is wrong in config.)
+3. File will be created and deleted after IT is completed. (File name: "t_e_s_t_file_dont_use.txt")
+4. Both services should have different file location.
 ```bash
 sbt it:test
 or
